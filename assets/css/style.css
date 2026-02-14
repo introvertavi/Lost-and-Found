@@ -1,0 +1,263 @@
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f5f7fa; /* soft background */
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #212529, #343a40);
+  color: white;
+  padding: 60px 20px;
+  border-radius: 12px;
+}
+
+/* Section cards */
+.section-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  padding: 10px 22px;
+}
+.hero-subtitle {
+  color: #d1d5db;          /* light grey */
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+.hero-subtitle {
+  color: #d1d5db;        /* light grey, high contrast */
+  font-size: 1.15rem;
+  margin-top: 12px;
+  letter-spacing: 0.3px;
+}
+
+/* Optional but recommended */
+.hero h1 {
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subtitle {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+.footer {
+  background-color: #212529;
+  color: #dee2e6;
+  padding: 30px 0;
+}
+
+.footer p {
+  margin: 0;
+}
+/* Custom text selection */
+::selection {
+  background-color: #ffc107; /* yellow highlight */
+  color: #212529;            /* dark text */
+}
+
+/* For Firefox */
+::-moz-selection {
+  background-color: #ffc107;
+  color: #212529;
+}
+/* ===== FORCE custom text selection ===== */
+*::selection {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+*::-moz-selection {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+.footer {
+  background-color: #1f2428; /* slightly lighter than before */
+  color: #e9ecef;
+  padding: 40px 0;
+}
+
+.footer p {
+  color: #e9ecef;
+}
+.steps-list li {
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.steps-list i {
+  color: #0d6efd;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+/* ===== LOST PAGE CARD POLISH ===== */
+
+#lostItemsContainer .card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#lostItemsContainer .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+#lostItemsContainer img {
+  height: 220px;
+  object-fit: cover;
+}
+/* ===== BETTER NAVBAR ===== */
+
+.custom-navbar{
+  background: linear-gradient(135deg,#1f2428,#2d3436);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.custom-navbar .navbar-brand{
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.custom-navbar .nav-link{
+  font-weight: 500;
+  margin-left: 12px;
+  position: relative;
+  transition: 0.25s;
+}
+
+/* Hover underline animation */
+.custom-navbar .nav-link::after{
+  content:"";
+  position:absolute;
+  width:0%;
+  height:2px;
+  bottom:-4px;
+  left:0;
+  background:#ff4d4d;
+  transition:0.3s;
+}
+
+.custom-navbar .nav-link:hover::after{
+  width:100%;
+}
+
+.custom-navbar .nav-link:hover{
+  color:#ffffff !important;
+}
+/* =========================
+   NAVBAR UPGRADE PACK
+========================= */
+
+.custom-navbar{
+  background: linear-gradient(135deg,#1f2428,#2d3436);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+  padding: 12px 0;
+}
+
+/* BIGGER LOGO */
+.custom-navbar .navbar-brand{
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+}
+
+/* BIGGER NAV TEXT */
+.custom-navbar .nav-link{
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-left: 18px;
+  padding: 6px 4px;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+/* SMOOTH COLOR HOVER */
+.custom-navbar .nav-link:hover{
+  color:#ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* PROFESSIONAL UNDERLINE ANIMATION */
+.custom-navbar .nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+  width:0%;
+  height:3px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#ff4d4d,#ff8a00);
+  transition:0.35s;
+}
+
+.custom-navbar .nav-link:hover::after{
+  width:100%;
+}
+
+/* ACTIVE PAGE STYLE */
+.custom-navbar .nav-link.active{
+  color:#ffffff !important;
+}
+
+.custom-navbar .nav-link.active::after{
+  width:100%;
+}
+/* =========================
+   FEEDBACK PAGE TEXT FIX
+========================= */
+
+/* Hero subtitle bigger */
+.hero-subtitle{
+  font-size: 1.15rem;
+  opacity: 0.95;
+}
+
+/* Card headings */
+.card h4,
+.card h5{
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+/* Form labels */
+.form-label{
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Form input text */
+.form-control,
+.form-select,
+textarea{
+  font-size: 1.05rem;
+  padding: 10px 12px;
+}
+
+/* Feedback description text */
+.card p{
+  font-size: 1.02rem;
+}
+
+/* Buttons slightly bigger */
+.btn{
+  font-size: 1.05rem;
+  padding: 10px 18px;
+}
+/* =========================
+   FIX CARD IMAGE SIZE
+========================= */
+
+.card-img-top{
+  height: 220px;
+  object-fit: cover;
+  width: 100%;
+}
