@@ -28,7 +28,7 @@ fetch("components/navbar.html")
 ================================================= */
 const lostItems = [
 {
-id:1,
+id:"1",
 name:"Brown Wallet",
 location:"Library",
 date:"9 Feb 2026",
@@ -37,7 +37,7 @@ image:"assets/images/lost-items/wallet.jpg",
 email:"finder@college.com"
 },
 {
-id:2,
+id:"2",
 name:"UNO Cards",
 location:"Cafeteria",
 date:"8 Feb 2026",
@@ -46,7 +46,7 @@ image:"assets/images/lost-items/UNO.jpg",
 email:"finder2@college.com"
 },
 {
-id:3,
+id:"3",
 name:"College ID Card",
 location:"Main Gate",
 date:"7 Feb 2026",
@@ -63,7 +63,7 @@ email:"finder3@college.com"
 ================================================= */
 const foundItems = [
 {
-id:101,
+id:"101",
 name:"Blue Water Bottle",
 location:"Sports Ground",
 date:"10 Feb 2026",
@@ -72,7 +72,7 @@ image:"assets/images/found-items/bottle.jpg",
 email:"finder4@college.com"
 },
 {
-id:102,
+id:"102",
 name:"Calculator",
 location:"Engineering Block",
 date:"9 Feb 2026",
@@ -81,7 +81,7 @@ image:"assets/images/found-items/calculator.jpg",
 email:"finder5@college.com"
 },
 {
-id:103,
+id:"103",
 name:"Headphones",
 location:"Library",
 date:"8 Feb 2026",
@@ -102,10 +102,12 @@ const reports = JSON.parse(localStorage.getItem("reportedItems")) || [];
 let dynamicLost = [...lostItems];
 let dynamicFound = [...foundItems];
 
-reports.forEach((r,index)=>{
+reports.forEach((r)=>{
 
 const newItem = {
-id: "report"+index,
+id: String(r.id),
+isUserReport: true,
+person: r.person || "Unknown",
 name: r.name,
 location: r.location,
 date: r.date,
@@ -113,6 +115,7 @@ description: r.description,
 image: r.image || "assets/images/no-image.png",
 email: r.email
 };
+
 
 if(r.type === "Lost") dynamicLost.push(newItem);
 if(r.type === "Found") dynamicFound.push(newItem);
@@ -128,12 +131,12 @@ if(r.type === "Found") dynamicFound.push(newItem);
 const lostContainer = document.getElementById("lostItemsContainer");
 
 if(lostContainer){
-
 dynamicLost.forEach(item=>{
 lostContainer.innerHTML += createCard(item,"danger");
 });
-
 }
+
+
 
 /* =================================================
    RENDER FOUND PAGE
@@ -142,47 +145,65 @@ lostContainer.innerHTML += createCard(item,"danger");
 const foundContainer = document.getElementById("foundItemsContainer");
 
 if(foundContainer){
-
 dynamicFound.forEach(item=>{
 foundContainer.innerHTML += createCard(item,"success");
 });
-
 }
 
+
+
 /* =================================================
-   CARD TEMPLATE (REUSED FOR BOTH)
+   CARD TEMPLATE
 ================================================= */
 
 function createCard(item,color){
 
-const isReport = String(item.id).startsWith("report");
+item.id = String(item.id);
 
+let collectedList = JSON.parse(localStorage.getItem("collectedItems")) || [];
+collectedList = collectedList.map(String);
+
+const isCollected = collectedList.includes(item.id);
+const isReport = item.isUserReport === true;
 return `
 <div class="col-md-4">
-  <div class="card shadow-sm h-100 rounded-4">
+  <div class="card shadow-sm h-100 rounded-4 ${isCollected ? 'opacity-50' : ''}">
 
     <img src="${item.image}" class="card-img-top">
 
     <div class="card-body">
 
-      <h5 class="fw-bold">${item.name}</h5>
+      <h5 class="fw-bold">
+        ${item.name}
+        ${isCollected ? `<span class="badge bg-success ms-2">Collected</span>` : ''}
+      </h5>
 
       <p class="mb-1"><strong>Location:</strong> ${item.location}</p>
       <p><strong>Date:</strong> ${item.date}</p>
 
-      <a href="view-details.html?id=${item.id}" 
-         class="btn btn-${color} w-100 mb-2">
-        View Details
-      </a>
+      ${
+        !isCollected
+        ? `<a href="view-details.html?id=${item.id}" 
+             class="btn btn-${color} w-100 mb-2">
+             View Details
+           </a>`
+        : ''
+      }
 
       ${
-        isReport
-        ? `<button onclick="deleteReport('${item.id}')" 
-           class="btn btn-outline-danger w-100">
-           Delete
-           </button>`
-        : ""
+      !isCollected
+  ?   `<button onclick="markCollected('${item.id}')" 
+         class="btn btn-success w-100 mb-2">
+         Mark Collected
+      </button>`
+      : ''
       }
+
+      <button onclick="deleteReport('${item.id}')" 
+        class="btn btn-outline-danger w-100">
+        Delete
+      </button>
+
 
     </div>
 
@@ -192,8 +213,10 @@ return `
 
 }
 
+
+
 /* =================================================
-   VIEW DETAILS (SUPPORTS DEFAULT + REPORTED)
+   VIEW DETAILS
 ================================================= */
 
 const params = new URLSearchParams(window.location.search);
@@ -202,8 +225,8 @@ const id = params.get("id");
 if(id){
 
 let item =
-dynamicLost.find(i=>i.id==id) ||
-dynamicFound.find(i=>i.id==id);
+dynamicLost.find(i=>String(i.id)===String(id)) ||
+dynamicFound.find(i=>String(i.id)===String(id));
 
 if(item){
 
@@ -228,10 +251,8 @@ window.currentItem=item;
 
 }
 
-
-
 /* =================================================
-   CONTACT FINDER
+   CONTACT
 ================================================= */
 
 function contactFinder(){
@@ -254,8 +275,11 @@ window.location.href =
 `mailto:${window.currentItem.email}?subject=${subject}&body=${body}`;
 
 }
+
+
+
 /* ==========================
-   DELETE REPORTED ITEM
+   DELETE REPORT
 ========================== */
 
 function deleteReport(id){
@@ -264,14 +288,33 @@ if(!confirm("Delete this reported item?")) return;
 
 let reports = JSON.parse(localStorage.getItem("reportedItems")) || [];
 
-// extract index from id like "report2"
-const index = parseInt(id.replace("report",""));
-
-reports.splice(index,1);
+reports = reports.filter(r => String(r.id) !== String(id));
 
 localStorage.setItem("reportedItems",JSON.stringify(reports));
 
-// reload page to refresh lists
+location.reload();
+
+}
+
+
+
+/* ==========================
+   MARK COLLECTED
+========================== */
+
+function markCollected(id){
+
+id = String(id);
+
+let collected = JSON.parse(localStorage.getItem("collectedItems")) || [];
+collected = collected.map(String);
+
+if(!collected.includes(id)){
+collected.push(id);
+}
+
+localStorage.setItem("collectedItems",JSON.stringify(collected));
+
 location.reload();
 
 }

@@ -55,6 +55,11 @@ Submit item details so others can identify and claim it.
 
 
 <!-- NAME + LOCATION -->
+<div class="mb-3">
+<label class="form-label">Your Name</label>
+<input type="text" class="form-control" id="person" required>
+</div>
+
 <div class="row">
 <div class="col-md-6 mb-3">
 <label class="form-label">Item Name</label>
@@ -189,7 +194,10 @@ function saveReport(img){
 
 const report = {
 
+id: "report_" + Date.now(),
+
 type: document.querySelector('input[name="type"]:checked').value,
+person: document.getElementById("person").value,   // ← ADD THIS LINE HERE
 name: document.getElementById("name").value,
 location: document.getElementById("location").value,
 date: document.getElementById("date").value,
@@ -220,6 +228,5 @@ Return Home
 
 });
 </script>
-
 </body>
 </html>
