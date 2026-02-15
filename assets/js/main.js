@@ -134,9 +134,11 @@ if(lostContainer){
 dynamicLost.forEach(item=>{
 lostContainer.innerHTML += createCard(item,"danger");
 });
+
+if(!lostContainer.innerHTML.trim()){
+document.getElementById("emptyMessage")?.classList.remove("d-none");
 }
-
-
+}
 
 /* =================================================
    RENDER FOUND PAGE
@@ -148,9 +150,11 @@ if(foundContainer){
 dynamicFound.forEach(item=>{
 foundContainer.innerHTML += createCard(item,"success");
 });
+
+if(!foundContainer.innerHTML.trim()){
+document.getElementById("emptyMessage")?.classList.remove("d-none");
 }
-
-
+}
 
 /* =================================================
    CARD TEMPLATE
