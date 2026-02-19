@@ -16,7 +16,7 @@
 
 
 <!-- HERO -->
-<section class="container hero text-center my-5">
+<section class="container hero text-center my-4 my-md-5">
 <h1 class="fw-bold">
 <i class="bi bi-plus-circle"></i> Report Lost / Found Item
 </h1>
@@ -29,11 +29,13 @@ Submit item details so others can identify and claim it.
 
 
 <!-- FORM -->
-<section class="container my-5">
+<section class="container my-4 my-md-5">
 <div class="row justify-content-center">
-<div class="col-md-8">
 
-<div class="card shadow-sm p-4 rounded-4">
+<!-- MOBILE SAFE WIDTH -->
+<div class="col-12 col-md-10 col-lg-8">
+
+<div class="card shadow-sm p-3 p-md-4 rounded-4">
 
 <h4 class="fw-bold mb-4">
 <i class="bi bi-pencil-square"></i> Item Information
@@ -41,51 +43,62 @@ Submit item details so others can identify and claim it.
 
 <form id="reportForm">
 
-<!-- TYPE (BUTTON TOGGLE) -->
+
+<!-- TYPE -->
 <div class="mb-4">
 <label class="form-label fw-semibold">Item Type</label>
 
 <div class="btn-group w-100">
-  <input type="radio" class="btn-check" name="type" id="lostBtn" value="Lost" required>
-  <label class="btn btn-outline-danger" for="lostBtn">Lost Item</label>
+<input type="radio" class="btn-check" name="type" id="lostBtn" value="Lost" required>
+<label class="btn btn-outline-danger" for="lostBtn">Lost Item</label>
 
-  <input type="radio" class="btn-check" name="type" id="foundBtn" value="Found">
-  <label class="btn btn-outline-success" for="foundBtn">Found Item</label>
+<input type="radio" class="btn-check" name="type" id="foundBtn" value="Found">
+<label class="btn btn-outline-success" for="foundBtn">Found Item</label>
 </div>
 </div>
 
 
-<!-- NAME + LOCATION -->
+
+<!-- NAME -->
 <div class="mb-3">
 <label class="form-label">Your Name</label>
 <input type="text" class="form-control" id="person" required>
 </div>
 
+
+
+<!-- ITEM + LOCATION -->
 <div class="row">
-<div class="col-md-6 mb-3">
+
+<div class="col-12 col-md-6 mb-3">
 <label class="form-label">Item Name</label>
 <input type="text" class="form-control" id="name" required>
 </div>
 
-<div class="col-md-6 mb-3">
+<div class="col-12 col-md-6 mb-3">
 <label class="form-label">Location</label>
 <input type="text" class="form-control" id="location" required>
 </div>
+
 </div>
+
 
 
 <!-- DATE + EMAIL -->
 <div class="row">
-<div class="col-md-6 mb-3">
+
+<div class="col-12 col-md-6 mb-3">
 <label class="form-label">Date</label>
 <input type="date" class="form-control" id="date" required>
 </div>
 
-<div class="col-md-6 mb-3">
+<div class="col-12 col-md-6 mb-3">
 <label class="form-label">Your Email</label>
 <input type="email" class="form-control" id="email" required>
 </div>
+
 </div>
+
 
 
 <!-- DESCRIPTION -->
@@ -95,6 +108,7 @@ Submit item details so others can identify and claim it.
 </div>
 
 
+
 <!-- IMAGE -->
 <div class="mb-4">
 <label class="form-label">Upload Item Photo</label>
@@ -102,11 +116,10 @@ Submit item details so others can identify and claim it.
 <input type="file" class="form-control" id="image" accept="image/*">
 
 <div class="text-center mt-3">
-<img id="preview"
-class="rounded shadow-sm border"
-style="max-width:240px; display:none;">
+<img id="preview" class="rounded shadow-sm border img-fluid" style="max-width:240px; display:none;">
 </div>
 </div>
+
 
 
 <button class="btn btn-primary w-100 py-2 fw-semibold">
@@ -139,13 +152,13 @@ style="max-width:240px; display:none;">
 
 
 <script>
+
 // auto-fill today's date
 document.getElementById("date").value =
 new Date().toISOString().split("T")[0];
 
-/* ==============================
-   IMAGE PREVIEW
-============================== */
+
+// IMAGE PREVIEW
 document.getElementById("image").addEventListener("change", function(){
 
 const file = this.files[0];
@@ -168,9 +181,7 @@ reader.readAsDataURL(file);
 
 
 
-/* ==============================
-   SAVE REPORT WITH IMAGE
-============================== */
+// SAVE REPORT
 document.getElementById("reportForm").addEventListener("submit", function(e){
 
 e.preventDefault();
@@ -196,9 +207,8 @@ function saveReport(img){
 const report = {
 
 id: "report_" + Date.now(),
-
 type: document.querySelector('input[name="type"]:checked').value,
-person: document.getElementById("person").value,   // ← ADD THIS LINE HERE
+person: document.getElementById("person").value,
 name: document.getElementById("name").value,
 location: document.getElementById("location").value,
 date: document.getElementById("date").value,
@@ -212,7 +222,6 @@ time: new Date().toLocaleString()
 let reports = JSON.parse(localStorage.getItem("reportedItems")) || [];
 reports.push(report);
 localStorage.setItem("reportedItems", JSON.stringify(reports));
-
 
 document.getElementById("reportForm").innerHTML = `
 <div class="text-center p-4">
@@ -228,6 +237,8 @@ Return Home
 }
 
 });
+
 </script>
+
 </body>
 </html>
