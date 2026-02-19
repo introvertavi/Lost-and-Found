@@ -261,3 +261,19 @@ textarea{
   object-fit: cover;
   width: 100%;
 }
+
+@media(max-width:576px){
+
+.card{
+  padding:1.5rem !important;
+}
+
+.hero h1{
+  font-size:1.6rem;
+}
+
+.hero-subtitle{
+  font-size:0.95rem;
+}
+
+}
