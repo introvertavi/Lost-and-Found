@@ -1,3 +1,40 @@
+:root{
+
+--primary:#4f46e5;
+--success:#22c55e;
+--danger:#ef4444;
+--bg:#f8fafc;
+--card:#ffffff;
+--text:#1f2937;
+
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+}
+
+/* ===== BODY FIX FOR FIXED NAVBAR ===== */
+body{
+padding-top:90px;
+background:#f8fafc;
+}
+
+/* ===== MODERN NAVBAR ===== */
+.custom-navbar{
+background:linear-gradient(90deg,#4f46e5,#06b6d4);
+box-shadow:0 2px 10px rgba(0,0,0,0.12);
+}
+
+/* Navbar links nicer hover */
+.custom-navbar .nav-link{
+color:white !important;
+font-weight:500;
+}
+
+.custom-navbar .nav-link:hover{
+opacity:0.85;
+}
 
 .btn {
   padding: 10px 20px;
