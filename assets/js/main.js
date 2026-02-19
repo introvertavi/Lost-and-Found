@@ -170,7 +170,7 @@ collectedList = collectedList.map(String);
 const isCollected = collectedList.includes(item.id);
 const isReport = item.isUserReport === true;
 return `
-<div class="col-md-4">
+<div class="col-12 col-sm-6 col-md-4">
   <div class="card shadow-sm h-100 rounded-4 ${isCollected ? 'opacity-50' : ''}">
 
     <img src="${item.image}" class="card-img-top">
