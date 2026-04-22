@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Item Details | Lost & Found</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<!-- HERO -->
+<section class="container hero text-center my-5">
+<h1 class="fw-bold">
+<i class="bi bi-info-circle"></i> Item Details
+</h1>
+<p class="hero-subtitle">
+Review item information before proceeding with a claim.
+</p>
+</section>
+
+<!-- DETAILS -->
+<section class="container my-5">
+<div class="row justify-content-center">
+<div class="col-md-8">
+
+<div class="card shadow-sm p-4 rounded-4">
+
+<!-- Dynamic Image -->
+<img id="itemImage" class="img-fluid rounded mb-4">
+
+<!-- Dynamic Content -->
+<h3 id="itemName" class="fw-bold mb-3"></h3>
+
+<p><strong>👤 Reported By:</strong> <span id="itemPerson"></span></p>
+<p><strong>📅 Date:</strong> <span id="itemDate"></span></p>
+<p><strong>📝 Description:</strong> <span id="itemDesc"></span></p>
+
+<hr>
+
+<div class="alert alert-warning">
+<i class="bi bi-shield-check"></i>
+Identity verification is required before collecting this item.
+</div>
+
+<!-- BUTTONS -->
+<div class="text-center mt-4">
+
+<button id="contactBtn" class="btn btn-success me-2" onclick="contactFinder()">
+<i class="bi bi-envelope"></i> Contact
+</button>
+
+<a href="javascript:history.back()" class="btn btn-outline-secondary">
+<i class="bi bi-arrow-left"></i> Go Back
+</a>
+
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<footer class="footer mt-5">
+<div class="container text-center">
+<div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+<p class="mb-1 fw-semibold">Lost & Found Portal</p>
+<p class="small mb-0">© 2026 | Web Technology Project </p>
+</div>
+</div>
+</footer>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<!-- ========================= -->
+<!-- DETAILS PAGE FIX SCRIPT -->
+<!-- ========================= -->
+<script>
+
+setTimeout(()=>{
+
+const item = window.currentItem;
+if(!item) return;
+
+
+// ===== FILL DATA SAFELY =====
+if(document.getElementById("itemImage"))
+document.getElementById("itemImage").src = item.image;
+
+if(document.getElementById("itemName"))
+document.getElementById("itemName").textContent = item.name;
+
+if(document.getElementById("itemDate"))
+document.getElementById("itemDate").textContent = item.date;
+
+if(document.getElementById("itemDesc"))
+document.getElementById("itemDesc").textContent = item.description;
+
+
+// ===== SHOW PERSON NAME =====
+if(document.getElementById("itemPerson")){
+
+const role =
+(String(item.id).startsWith("report") || Number(item.id)>=100)
+? "Finder" : "Owner";
+
+document.getElementById("itemPerson").innerHTML =
+(item.person || "Unknown") +
+" <span class='badge bg-primary ms-2'>"+role+"</span>";
+
+}
+
+
+// ===== FIX CONTACT BUTTON =====
+const btn = document.getElementById("contactBtn");
+
+if(btn){
+
+const isFound =
+(String(item.id).startsWith("report") || Number(item.id)>=100);
+
+btn.innerHTML = isFound
+? '<i class="bi bi-envelope"></i> Contact Finder'
+: '<i class="bi bi-envelope"></i> Contact Owner';
+
+}
+
+},150);
+
+</script>
+
+</body>
+</html>
