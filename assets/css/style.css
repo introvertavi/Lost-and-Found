@@ -233,6 +233,18 @@ textarea {
   font-weight:   500;
 }
 
+.btn-outline-success {
+  background-color: transparent !important;
+  color:            #22c55e !important;
+  border:           2px solid #22c55e !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:active {
+  background-color: #22c55e !important;
+  color:            #ffffff !important;
+}
+
 
 
 /* =================================================
