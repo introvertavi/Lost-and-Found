@@ -32,6 +32,7 @@ id:"1",
 name:"Brown Wallet",
 location:"Library",
 date:"9 Feb 2026",
+category:"accessories",
 description:"Leather wallet containing cards and cash.",
 image:"assets/images/lost-items/wallet.jpg",
 email:"finder@college.com"
@@ -41,6 +42,7 @@ id:"2",
 name:"UNO Cards",
 location:"Cafeteria",
 date:"8 Feb 2026",
+category:"games",
 description:"UNO playing cards deck.",
 image:"assets/images/lost-items/UNO.jpg",
 email:"finder2@college.com"
@@ -50,6 +52,7 @@ id:"3",
 name:"College ID Card",
 location:"Main Gate",
 date:"7 Feb 2026",
+category:"documents",
 description:"Student ID card found near gate.",
 image:"assets/images/lost-items/idcard.jpg",
 email:"finder3@college.com"
@@ -67,6 +70,7 @@ id:"101",
 name:"Blue Water Bottle",
 location:"Sports Ground",
 date:"10 Feb 2026",
+category:"accessories",
 description:"Plastic blue bottle with black cap.",
 image:"assets/images/found-items/bottle.jpg",
 email:"finder4@college.com"
@@ -76,6 +80,7 @@ id:"102",
 name:"Calculator",
 location:"Engineering Block",
 date:"9 Feb 2026",
+category:"electronics",
 description:"Scientific calculator found near classroom.",
 image:"assets/images/found-items/calculator.jpg",
 email:"finder5@college.com"
@@ -85,6 +90,7 @@ id:"103",
 name:"Headphones",
 location:"Library",
 date:"8 Feb 2026",
+category:"electronics",
 description:"Black wired headphones.",
 image:"assets/images/found-items/headphones.jpg",
 email:"finder6@college.com"
@@ -99,7 +105,7 @@ email:"finder6@college.com"
 
 const reports = JSON.parse(localStorage.getItem("reportedItems")) || [];
 
-let dynamicLost = [...lostItems];
+let dynamicLost  = [...lostItems];
 let dynamicFound = [...foundItems];
 
 reports.forEach((r)=>{
@@ -111,13 +117,13 @@ person: r.person || "Unknown",
 name: r.name,
 location: r.location,
 date: r.date,
+category: r.category || "other",
 description: r.description,
 image: r.image || "assets/images/no-image.png",
 email: r.email
 };
 
-
-if(r.type === "Lost") dynamicLost.push(newItem);
+if(r.type === "Lost")  dynamicLost.push(newItem);
 if(r.type === "Found") dynamicFound.push(newItem);
 
 });
@@ -129,16 +135,22 @@ if(r.type === "Found") dynamicFound.push(newItem);
 ================================================= */
 
 const lostContainer = document.getElementById("lostItemsContainer");
+const itemCount     = document.getElementById("itemCount");
+const emptyMessage  = document.getElementById("emptyMessage");
 
 if(lostContainer){
-dynamicLost.forEach(item=>{
-lostContainer.innerHTML += createCard(item,"danger");
-});
+  dynamicLost.forEach(item=>{
+    lostContainer.innerHTML += createCard(item,"danger");
+  });
 
-if(!lostContainer.innerHTML.trim()){
-document.getElementById("emptyMessage")?.classList.remove("d-none");
+  if(itemCount) itemCount.innerText = `${dynamicLost.length} item(s) found`;
+
+  if(!lostContainer.innerHTML.trim()){
+    emptyMessage?.classList.remove("d-none");
+  }
 }
-}
+
+
 
 /* =================================================
    RENDER FOUND PAGE
@@ -147,20 +159,24 @@ document.getElementById("emptyMessage")?.classList.remove("d-none");
 const foundContainer = document.getElementById("foundItemsContainer");
 
 if(foundContainer){
-dynamicFound.forEach(item=>{
-foundContainer.innerHTML += createCard(item,"success");
-});
+  dynamicFound.forEach(item=>{
+    foundContainer.innerHTML += createCard(item,"success");
+  });
 
-if(!foundContainer.innerHTML.trim()){
-document.getElementById("emptyMessage")?.classList.remove("d-none");
+  if(itemCount) itemCount.innerText = `${dynamicFound.length} item(s) found`;
+
+  if(!foundContainer.innerHTML.trim()){
+    emptyMessage?.classList.remove("d-none");
+  }
 }
-}
+
+
 
 /* =================================================
    CARD TEMPLATE
 ================================================= */
 
-function createCard(item,color){
+function createCard(item, color){
 
 item.id = String(item.id);
 
@@ -168,12 +184,17 @@ let collectedList = JSON.parse(localStorage.getItem("collectedItems")) || [];
 collectedList = collectedList.map(String);
 
 const isCollected = collectedList.includes(item.id);
-const isReport = item.isUserReport === true;
+
 return `
 <div class="col-12 col-sm-6 col-md-4">
   <div class="card shadow-sm h-100 rounded-4 ${isCollected ? 'opacity-50' : ''}">
 
-    <img src="${item.image}" class="card-img-top">
+    <img
+      src="${item.image}"
+      class="card-img-top"
+      style="cursor:zoom-in;"
+      onclick="openLightbox('${item.image}')"
+    >
 
     <div class="card-body">
 
@@ -182,12 +203,14 @@ return `
         ${isCollected ? `<span class="badge bg-success ms-2">Collected</span>` : ''}
       </h5>
 
+      ${item.category ? `<p class="mb-1"><span class="badge bg-secondary text-capitalize">${item.category}</span></p>` : ''}
+
       <p class="mb-1"><strong>Location:</strong> ${item.location}</p>
       <p><strong>Date:</strong> ${item.date}</p>
 
       ${
         !isCollected
-        ? `<a href="view-details.html?id=${item.id}" 
+        ? `<a href="view-details.html?id=${item.id}"
              class="btn btn-${color} w-100 mb-2">
              View Details
            </a>`
@@ -195,19 +218,18 @@ return `
       }
 
       ${
-      !isCollected
-  ?   `<button onclick="markCollected('${item.id}')" 
-         class="btn btn-success w-100 mb-2">
-         Mark Collected
-      </button>`
-      : ''
+        !isCollected
+        ? `<button onclick="markCollected('${item.id}')"
+             class="btn btn-success w-100 mb-2">
+             Mark Collected
+           </button>`
+        : ''
       }
 
-      <button onclick="deleteReport('${item.id}')" 
+      <button onclick="deleteReport('${item.id}')"
         class="btn btn-outline-danger w-100">
         Delete
       </button>
-
 
     </div>
 
@@ -254,6 +276,8 @@ window.currentItem=item;
 }
 
 }
+
+
 
 /* =================================================
    CONTACT
@@ -321,4 +345,165 @@ localStorage.setItem("collectedItems",JSON.stringify(collected));
 
 location.reload();
 
+}
+
+
+
+/* ==========================
+   LIGHTBOX
+========================== */
+
+function openLightbox(src){
+
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    animation: fadeIn 0.2s ease;
+  `;
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.cssText = `
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    object-fit: contain;
+  `;
+
+  // Close hint
+  const hint = document.createElement("p");
+  hint.textContent = "Click anywhere or press Esc to close";
+  hint.style.cssText = `
+    position: absolute;
+    bottom: 20px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    margin: 0;
+  `;
+
+  overlay.addEventListener("click", () => overlay.remove());
+
+  document.addEventListener("keydown", function handler(e){
+    if(e.key === "Escape"){
+      overlay.remove();
+      document.removeEventListener("keydown", handler);
+    }
+  });
+
+  overlay.appendChild(img);
+  overlay.appendChild(hint);
+  document.body.appendChild(overlay);
+}
+
+
+
+// ===============================
+// SEARCH & FILTER — LOST PAGE
+// ===============================
+
+const searchInput    = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+
+if(lostContainer && searchInput){
+
+  function filterLostItems(){
+
+    const searchValue   = searchInput.value.toLowerCase().trim();
+    const categoryValue = categoryFilter.value.toLowerCase();
+
+    const filteredItems = dynamicLost.filter(item => {
+
+      const name = item.name?.toLowerCase()        || "";
+      const desc = item.description?.toLowerCase() || "";
+      const loc  = item.location?.toLowerCase()    || "";
+      const cat  = item.category?.toLowerCase()    || "other";
+
+      const matchesSearch =
+        name.includes(searchValue) ||
+        desc.includes(searchValue) ||
+        loc.includes(searchValue);
+
+      const matchesCategory =
+        categoryValue === "" || cat === categoryValue;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    lostContainer.innerHTML = "";
+
+    if(filteredItems.length === 0){
+      emptyMessage?.classList.remove("d-none");
+      if(itemCount) itemCount.innerText = "0 items found";
+      return;
+    }
+
+    emptyMessage?.classList.add("d-none");
+    if(itemCount) itemCount.innerText = `${filteredItems.length} item(s) found`;
+
+    filteredItems.forEach(item => {
+      lostContainer.innerHTML += createCard(item, "danger");
+    });
+  }
+
+  searchInput.addEventListener("input",     filterLostItems);
+  categoryFilter.addEventListener("change", filterLostItems);
+}
+
+
+
+// ===============================
+// SEARCH & FILTER — FOUND PAGE
+// ===============================
+
+if(foundContainer && searchInput){
+
+  function filterFoundItems(){
+
+    const searchValue   = searchInput.value.toLowerCase().trim();
+    const categoryValue = categoryFilter.value.toLowerCase();
+
+    const filteredItems = dynamicFound.filter(item => {
+
+      const name = item.name?.toLowerCase()        || "";
+      const desc = item.description?.toLowerCase() || "";
+      const loc  = item.location?.toLowerCase()    || "";
+      const cat  = item.category?.toLowerCase()    || "other";
+
+      const matchesSearch =
+        name.includes(searchValue) ||
+        desc.includes(searchValue) ||
+        loc.includes(searchValue);
+
+      const matchesCategory =
+        categoryValue === "" || cat === categoryValue;
+
+      return matchesSearch && matchesCategory;
+    });
+
+    foundContainer.innerHTML = "";
+
+    if(filteredItems.length === 0){
+      emptyMessage?.classList.remove("d-none");
+      if(itemCount) itemCount.innerText = "0 items found";
+      return;
+    }
+
+    emptyMessage?.classList.add("d-none");
+    if(itemCount) itemCount.innerText = `${filteredItems.length} item(s) found`;
+
+    filteredItems.forEach(item => {
+      foundContainer.innerHTML += createCard(item, "success");
+    });
+  }
+
+  searchInput.addEventListener("input",     filterFoundItems);
+  categoryFilter.addEventListener("change", filterFoundItems);
 }

@@ -28,14 +28,43 @@ Browse items that have been found and reported by users.
 <!-- ITEMS -->
 <section class="container my-4 my-md-5">
 
-<!-- Cards -->
-<div class="row g-4" id="foundItemsContainer"></div>
+  <!-- SEARCH & FILTER BAR -->
+  <div class="search-bar d-flex flex-wrap gap-2 align-items-center mb-3">
 
-<!-- Empty message -->
-<div id="emptyMessage" class="text-center mt-5 d-none">
-  <h5>No items available</h5>
-  <p class="text-muted">Try reporting a new item.</p>
-</div>
+    <div class="flex-grow-1">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="form-control" 
+        placeholder="Search by name, location, or description…">
+    </div>
+
+    <div style="min-width:170px;">
+      <select id="categoryFilter" class="form-select">
+        <option value="">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="documents">Documents</option>
+        <option value="accessories">Accessories</option>
+        <option value="games">Games</option>
+        <option value="clothing">Clothing</option>
+        <option value="keys">Keys</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- ITEM COUNT -->
+  <p class="item-count" id="itemCount"></p>
+
+  <!-- Cards -->
+  <div class="row g-4" id="foundItemsContainer"></div>
+
+  <!-- Empty message -->
+  <div id="emptyMessage" class="text-center mt-5 d-none">
+    <h5>No items available</h5>
+    <p class="text-muted">Try changing search or filter.</p>
+  </div>
 
 </section>
 

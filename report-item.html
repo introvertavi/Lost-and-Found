@@ -101,6 +101,23 @@ Submit item details so others can identify and claim it.
 
 
 
+<!-- CATEGORY -->
+<div class="mb-3">
+<label class="form-label">Category</label>
+<select class="form-select" id="category" required>
+  <option value="" disabled selected>Select a category</option>
+  <option value="electronics">Electronics</option>
+  <option value="documents">Documents</option>
+  <option value="accessories">Accessories</option>
+  <option value="games">Games</option>
+  <option value="clothing">Clothing</option>
+  <option value="keys">Keys</option>
+  <option value="other">Other</option>
+</select>
+</div>
+
+
+
 <!-- DESCRIPTION -->
 <div class="mb-3">
 <label class="form-label">Description</label>
@@ -212,6 +229,7 @@ person: document.getElementById("person").value,
 name: document.getElementById("name").value,
 location: document.getElementById("location").value,
 date: document.getElementById("date").value,
+category: document.getElementById("category").value,
 description: document.getElementById("desc").value,
 email: document.getElementById("email").value,
 image: img,

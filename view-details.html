@@ -27,12 +27,17 @@ Review item information before proceeding with a claim.
 <!-- DETAILS -->
 <section class="container my-5">
 <div class="row justify-content-center">
-<div class="col-md-8">
+<div class="col-md-6">
 
 <div class="card shadow-sm p-4 rounded-4">
 
-<!-- Dynamic Image -->
-<img id="itemImage" class="img-fluid rounded mb-4">
+<!-- Dynamic Image — click to open lightbox -->
+<img
+  id="itemImage"
+  class="img-fluid rounded mb-4"
+  style="cursor:zoom-in;"
+  onclick="openLightbox(this.src)"
+>
 
 <!-- Dynamic Content -->
 <h3 id="itemName" class="fw-bold mb-3"></h3>
@@ -78,9 +83,8 @@ Identity verification is required before collecting this item.
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/main.js"></script>
 
-
 <!-- ========================= -->
-<!-- DETAILS PAGE FIX SCRIPT -->
+<!-- DETAILS PAGE FIX SCRIPT  -->
 <!-- ========================= -->
 <script>
 
@@ -88,7 +92,6 @@ setTimeout(()=>{
 
 const item = window.currentItem;
 if(!item) return;
-
 
 // ===== FILL DATA SAFELY =====
 if(document.getElementById("itemImage"))
@@ -103,7 +106,6 @@ document.getElementById("itemDate").textContent = item.date;
 if(document.getElementById("itemDesc"))
 document.getElementById("itemDesc").textContent = item.description;
 
-
 // ===== SHOW PERSON NAME =====
 if(document.getElementById("itemPerson")){
 
@@ -116,7 +118,6 @@ document.getElementById("itemPerson").innerHTML =
 " <span class='badge bg-primary ms-2'>"+role+"</span>";
 
 }
-
 
 // ===== FIX CONTACT BUTTON =====
 const btn = document.getElementById("contactBtn");
