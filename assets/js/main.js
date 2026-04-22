@@ -196,35 +196,48 @@ return `
       onclick="openLightbox('${item.image}')"
     >
 
-    <div class="card-body">
+    <div class="card-body d-flex flex-column">
 
       <h5 class="fw-bold">
         ${item.name}
         ${isCollected ? `<span class="badge bg-success ms-2">Collected</span>` : ''}
       </h5>
 
-      ${item.category ? `<p class="mb-1"><span class="badge bg-secondary text-capitalize">${item.category}</span></p>` : ''}
+      ${item.category ? `
+        <p class="mb-1">
+          <span class="badge bg-secondary text-capitalize">
+            <i class="bi bi-tag"></i> ${item.category}
+          </span>
+        </p>` : ''}
 
-      <p class="mb-1"><strong>Location:</strong> ${item.location}</p>
-      <p><strong>Date:</strong> ${item.date}</p>
+      <p class="mb-1 text-muted">
+        <i class="bi bi-geo-alt"></i> ${item.location}
+      </p>
+      <p class="mb-3 text-muted">
+        <i class="bi bi-calendar3"></i> ${item.date}
+      </p>
 
-      ${
-        !isCollected
-        ? `<a href="view-details.html?id=${item.id}"
-             class="btn btn-${color} w-100 mb-2">
-             View Details
-           </a>`
-        : ''
-      }
+      <div class="mt-auto d-flex flex-column gap-2">
 
-      ${
-        !isCollected
-        ? `<button type="button" onclick="markCollected('${item.id}')"
-             class="btn btn-success w-100 mb-2">
-             Mark Collected
-           </button>`
-        : ''
-      }
+        ${
+          !isCollected
+          ? `<a href="view-details.html?id=${item.id}"
+               class="btn btn-${color} w-100">
+               <i class="bi bi-eye"></i> View Details
+             </a>`
+          : ''
+        }
+
+        ${
+          !isCollected
+          ? `<button type="button" onclick="markCollected('${item.id}')"
+               class="btn btn-outline-success w-100">
+               <i class="bi bi-check-circle"></i> Mark Collected
+             </button>`
+          : ''
+        }
+
+      </div>
 
     </div>
 
