@@ -219,17 +219,12 @@ return `
 
       ${
         !isCollected
-        ? `<button onclick="markCollected('${item.id}')"
+        ? `<button type="button" onclick="markCollected('${item.id}')"
              class="btn btn-success w-100 mb-2">
              Mark Collected
            </button>`
         : ''
       }
-
-      <button onclick="deleteReport('${item.id}')"
-        class="btn btn-outline-danger w-100">
-        Delete
-      </button>
 
     </div>
 
@@ -307,26 +302,6 @@ window.location.href =
 
 
 /* ==========================
-   DELETE REPORT
-========================== */
-
-function deleteReport(id){
-
-if(!confirm("Delete this reported item?")) return;
-
-let reports = JSON.parse(localStorage.getItem("reportedItems")) || [];
-
-reports = reports.filter(r => String(r.id) !== String(id));
-
-localStorage.setItem("reportedItems",JSON.stringify(reports));
-
-location.reload();
-
-}
-
-
-
-/* ==========================
    MARK COLLECTED
 ========================== */
 
@@ -378,7 +353,6 @@ function openLightbox(src){
     object-fit: contain;
   `;
 
-  // Close hint
   const hint = document.createElement("p");
   hint.textContent = "Click anywhere or press Esc to close";
   hint.style.cssText = `
