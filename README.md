@@ -78,7 +78,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions or suggestions, please reach out:
 - GitHub: [@introvertavi](https://github.com/introvertavi)
-- Email: avinash@example.com
+- Email: vishavinash78@gmail.com
 
 ## Acknowledgments
 
